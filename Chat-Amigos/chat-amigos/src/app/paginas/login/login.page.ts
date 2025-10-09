@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormGroup, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonIcon, IonCard, IonInputPasswordToggle, IonList, IonButton, IonText, IonSpinner, IonFooter, IonAlert, IonModal } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonInput, IonIcon, IonCard, IonInputPasswordToggle, IonList, IonButton, IonText, IonSpinner, IonFooter, IonAlert, IonModal, IonImg } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { mailOutline, lockClosedOutline } from 'ionicons/icons';
 import { Router, RouterLink } from '@angular/router';
@@ -13,7 +13,7 @@ import { sendPasswordResetEmail } from '@angular/fire/auth';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonModal, IonAlert, IonFooter, IonSpinner, IonText, IonButton, IonList, IonCard, IonIcon, IonInput, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonInputPasswordToggle, RouterLink]
+  imports: [IonImg, IonModal, IonAlert, IonFooter, IonSpinner, IonText, IonButton, IonList, IonCard, IonIcon, IonInput, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonInputPasswordToggle, RouterLink]
 })
 export class LoginPage implements OnInit {
 

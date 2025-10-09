@@ -35,6 +35,7 @@ export class ChatsPage implements OnInit {
     addIcons({addCircle,arrowBack,chatbubblesOutline});
     
   }
+  //eslint-disable-next-line
   ngOnInit() {
   }
 

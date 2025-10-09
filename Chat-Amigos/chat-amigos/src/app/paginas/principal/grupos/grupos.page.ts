@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class GruposPage implements OnInit {
   
+  // eslint-disable-next-line
   ngOnInit() {
   }
   private router = inject(Router)
