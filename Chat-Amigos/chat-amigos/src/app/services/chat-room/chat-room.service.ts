@@ -74,7 +74,7 @@ export class ChatRoomService {
           return privateChatRoom
         }
       }
-      //if no matching private chat room eist, create a new one
+      //if no matching private chat room, crea uno nuevo
       const newChatRoom = this.api.pushData(chatRoomRef)
       const chatRoomId = newChatRoom.key;
       const chatRoomData = {
