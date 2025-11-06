@@ -42,6 +42,7 @@ ion-content{
   }
   ion-list{
     background-color: #B6E2A1;
+  
   }
 
 
@@ -56,5 +57,19 @@ ion-modal {
             color: #fff;
         }
     }
+  }
+}
+
+ion-tab-bar {
+  --background: #2F5233; 
+  ion-tab-button {
+    --color: #FFFFFF; 
+    --color-selected: #B6E2A1; 
+  }
+}
+ion-toolbar{
+  --background: #2F5233;
+  ion-title{
+    color: #fff;
   }
 }
