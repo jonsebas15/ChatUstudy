@@ -1,0 +1,28 @@
+.buttons-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem; /* espacio entre botones */
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+
+  ion-button {
+    flex: 1; /* que ambos ocupen el mismo ancho */
+    border-radius: 12px; /* bordes redondeados */
+  }
+}
+
+.user-list {
+  margin-top: 0.5rem;
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.box{
+  border-radius: 12px;
+  border: 1px solid var(--ion-color-medium);
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: var(--ion-color-light);
+}

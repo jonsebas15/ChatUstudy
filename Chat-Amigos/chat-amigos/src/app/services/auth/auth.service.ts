@@ -2,6 +2,9 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
+import { DatabaseReference, onValue } from '@firebase/database';
+import { User } from 'src/app/interface/user';
+
 import { StringFormat } from '@angular/fire/storage';
 
 @Injectable({
@@ -9,6 +12,8 @@ import { StringFormat } from '@angular/fire/storage';
 })
 export class AuthService {
   uid = signal<string | null>(null);
+  rol = signal<number | null>(null);
+  userRef: DatabaseReference | null = null;
   private fireAuth = inject(Auth)
   private router = inject(Router)
   private api = inject(ApiService)
@@ -23,6 +28,36 @@ export class AuthService {
     this.setData(uid);
     return uid;
   }
+  async getRol(){
+    const uid = this.getId();
+    // obtener datos desde tu base de datos
+    const snapshot = await this.api.getData(`users/${uid}`);
+    const data = snapshot.val();
+    const rol = data?.rol ?? null;
+
+    this.rol.set(rol);
+    return rol;
+  } 
+
+  //obtener rol de usuario
+  getRole(){
+    this.getId()
+    this.userRef = this.api.getRef(`users/${this.uid()}`);
+     const usuario = onValue(this.userRef,(snapshot)=>{
+          if(snapshot?.exists()){
+            const user: User = snapshot.val();
+    
+            const rol = user.rol;
+            console.log('sirve',rol)
+            this.rol.set(rol);
+          } else{
+            this.rol.set(0)
+          }
+        },(error)=>{
+          console.error('Fetching real-time users list', error)
+        })
+  }
+
 
   async register(data :{name: string, email: string, password:string}):Promise<{id:string}> {
     try{
@@ -38,6 +73,7 @@ export class AuthService {
         email: data.email,
         uid:id,
         photo:'https://i.pravatar.cc/'+this.randomIntFromInterval(200,400),
+        rol:0,
       }
       //set data in database
       await this.api.setData(`users/${id}`, userData);

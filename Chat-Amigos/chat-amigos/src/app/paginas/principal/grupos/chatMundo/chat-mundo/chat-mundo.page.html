@@ -1,63 +1,36 @@
-<ion-header >
+<ion-header>
   <ion-toolbar>
-    <ion-title>Chat Mundo </ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/principal/grupos" color="medium"></ion-back-button>
-    </ion-buttons>
-    <!-- <ion-buttons slot="end">
-      <ion-button (click)="clearMessages()">Borrar mensajes</ion-button>
-    </ion-buttons> -->
-    <!-- <ion-icon
-    name="ellipsis-vertical"
-    slot="end"
-    (click)="openMenu($event)"
-    size="large"
-  ></ion-icon> -->
-
- <!--  <ion-popover [isOpen]="isMenuOpen" [event]="event" (ionPopoverDidDismiss)="closeMenu()">
-    <ng-template>
-      <ion-list>
-        <ion-item button (click)="clearFriend()">Eliminar amigo</ion-item>
-        <ion-item button (click)="clearMessages()">Borrar mensajes</ion-item>
-      </ion-list>
-    </ng-template>
-  </ion-popover> -->
-
+    <ion-title>Calendario de tareas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  @let chatsArray = chats();
-  @if(chatsArray && chatsArray?.length! >0){
+<ion-content class="ion-padding">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <ion-button fill="clear" (click)="prevMonth()">◀</ion-button>
+    <div style="font-weight:600;color:black">{{ year }} - {{ month + 1 }}</div>
+    <ion-button fill="clear" (click)="nextMonth()">▶</ion-button>
+  </div>
 
-    <ion-list>
-      @for(chat of chatsArray; track $index){
-  
-        <app-chat-box-mundo [chat]="chat"> </app-chat-box-mundo>
-      }
-    </ion-list>
-  }<!-- @else {
-    <app-empty-screen [model]="model"></app-empty-screen>
-  } -->
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-weight:600;color:black">
+    <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px">
+    <ng-container *ngFor="let cell of days">
+      <div *ngIf="!cell" style="min-height:72px;border:1px solid #eee;background:#B6E2A1"></div>
+      <div *ngIf="cell" (click)="showDay(cell)"
+           style="min-height:72px;border:1px solid #ddd;padding:6px;cursor:pointer;position:relative">
+        <div style="position:absolute;top:6px;right:6px;font-size:12px;color:#666">{{ cell.date.getDate() }}</div>
+        <div *ngIf="cell.events.length" style="margin-top:20px">
+          <div *ngFor="let e of cell.events" style="background:#fffae6;border-left:4px solid #f0c330;padding:4px;margin-bottom:4px;font-size:13px">
+            {{ e.title }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div style="margin-top:12px">
+    <ion-button (click)="addExampleEvent()">Agregar ejemplo (profesor → johan 2025-11-15)</ion-button>
+  </div>
 </ion-content>
-<ion-footer>
-  <ion-toolbar>
-  <ion-item lines="none">
-      <ion-textarea autoGrow rows="1" placeholder="Escribir mensaje" [(ngModel)]="message"> </ion-textarea>
-      
-      @if(isLoading()){
-        <ion-button slot="end" size="large">
-          <ion-spinner name ="crescent"></ion-spinner>
-        </ion-button>
-
-      }@else {
-        <ion-button slot="end" size="large" (click) ="sendMessage()">
-          <ion-icon slot="icon-only" name="send">
-  
-          </ion-icon>
-        </ion-button>
-      }
-
-    </ion-item>
-  </ion-toolbar>
-</ion-footer>

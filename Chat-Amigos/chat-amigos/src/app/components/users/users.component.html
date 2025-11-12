@@ -3,14 +3,21 @@
     <ion-title>Nuevo chat</ion-title>
     <ion-buttons slot="start">
     <ion-button (click)="closeModal()">
-      <ion-icon name="arrow-back"></ion-icon>
+      <ion-icon name="arrow-back" style="color:rgb(255, 255, 255)"></ion-icon>
     </ion-button>
   </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
+  @if(userRol() === 1 ){
+  <ion-item color="tertiary" (click)="newshow(true)">
+    <ion-avatar slot="start">
+      <ion-icon name="person-add-outline" style="font-size: 32px;"></ion-icon>
+    </ion-avatar>
+    <ion-label>Crear un nuevo grupo</ion-label>
+  </ion-item>
+  }
   @if(users()){
-
     <ion-list lines="none">
       @for(user of users(); track $index){
         <ion-item color="tertiary" (click)="startChat(user)">
@@ -23,7 +30,11 @@
         </ion-item>
       }
     </ion-list>
-
   } 
-  
+  <ion-modal #usersModal [isOpen]="isNewChat()" (didDismiss)="newshow(false)">
+    <ng-template>
+      <app-grupo (close)="usersModal.dismiss()"></app-grupo>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

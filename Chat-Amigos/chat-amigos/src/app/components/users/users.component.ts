@@ -1,27 +1,39 @@
-import { Component, input, OnInit, output } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonButtons, IonIcon, IonContent, IonList, IonItem, IonAvatar, IonImg, IonLabel } from "@ionic/angular/standalone";
+import { Component, input, OnInit, output, signal } from '@angular/core';
 import { User } from 'src/app/interface/user';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { GrupoComponent } from 'src/app/components/new/grupo/grupo.component';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
   standalone: true,
-  imports: [IonLabel, IonImg, IonAvatar, IonItem, IonList, IonContent, IonIcon, IonButtons, IonButton, IonTitle, IonToolbar, IonHeader, ]
+  imports: [CommonModule, FormsModule, IonicModule, GrupoComponent]
 })
 export class UsersComponent  implements OnInit {
  users = input<User[] | null>([]);
  close = output<boolean>();
  user = output<User>();
-  constructor() { }
+ isNewChat = signal<boolean>(false)
+ groupName = '';
+ groupMembers = '';
+
+ userRol = input<number | null>(0);
+  constructor() {
+   }
 
   ngOnInit() {}
-  
+
   closeModal(){
     this.close.emit(true)
   }
   startChat(user:User){
     this.user.emit(user)
+  }
+  newshow(value:boolean){
+     this.isNewChat.set(value)
   }
 
 }

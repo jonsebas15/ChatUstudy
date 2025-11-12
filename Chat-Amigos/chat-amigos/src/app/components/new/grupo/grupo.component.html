@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Crear Nuevo Grupo</ion-title>
+    <ion-buttons slot="start">
+    <ion-button (click)="closeModal()">
+      <ion-icon name="arrow-back" style="color:rgb(255, 255, 255)"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+
+      <form (ngSubmit)="onCreateGroup()">
+        <!-- Nombre del grupo -->
+        <ion-item class="box">
+          <ion-label position="floating">Nombre del grupo</ion-label>
+          <ion-input [(ngModel)]="groupName" name="groupName" required></ion-input>
+        </ion-item>
+
+        <!-- Añadir personas -->
+        <ion-item button detail="true" (click)="toggleUserList()" class="box">
+          <ion-label>Seleccionar personas</ion-label>
+          <ion-text>{{ selectedUsers.length }} seleccionados</ion-text>
+        </ion-item>
+
+        <!-- Lista desplegable -->
+        <ion-list *ngIf="showUserList" class="user-list">
+          <ion-item *ngFor="let user of users">
+            <ion-label>{{ user.name }}</ion-label>
+            <ion-checkbox
+              slot="end"
+              name="user_{{ user.id }}"
+              [(ngModel)]="user.selected"
+              (ionChange)="updateSelectedUsers()">
+            </ion-checkbox>
+          </ion-item>
+        </ion-list>
+
+        <!-- Botones -->
+        <div class="ion-text-center buttons-row" style="margin-top: 1.5rem;">
+          <ion-button type="submit" color="success" expand="block">Aceptar</ion-button>
+          <ion-button type="button" color="medium" expand="block" (click)="closeModal()">Cancelar</ion-button>
+        </div>
+      </form>
+</ion-content>
