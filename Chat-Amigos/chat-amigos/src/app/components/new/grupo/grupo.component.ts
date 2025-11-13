@@ -1,8 +1,9 @@
-import { Component, OnInit, output } from '@angular/core';
+import { Component, output, input, OnInit, effect} from '@angular/core';
 import { } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { User } from 'src/app/interface/user'
 
 @Component({
   selector: 'app-grupo',
@@ -11,25 +12,30 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [CommonModule, FormsModule, IonicModule]
 })
-export class GrupoComponent  implements OnInit {
+export class GrupoComponent   {
 
   close = output<boolean>();
   groupName = '';
   groupMembers = '';
+  users = input<User[] | null>([]);
+  selectedUsers: (User & { selected: boolean })[] = [];
 
+  
   showUserList = false;
-  selectedUsers: any[] = [];
 
 
-  users = [
-    { id: 1, name: 'Johan', selected: false },
-    { id: 2, name: 'María', selected: false },
-    { id: 3, name: 'Carlos', selected: false },
-  ];
 
-  constructor() {}
-
-  ngOnInit() {}
+  localUsers: (User & { selected: boolean })[] = []; 
+  constructor() {
+    // 👇 Este effect se ejecuta cada vez que cambia el valor del input `users`
+    effect(() => {
+      const userList = this.users(); // obtener valor actual de la señal
+      if (userList && userList.length > 0) {
+        this.localUsers = userList.map(u => ({ ...u, selected: false }));
+        console.log('Usuarios cargados en localUsers:', this.localUsers);
+      }
+    });
+  }
 
   closeModal(){
     this.close.emit(true)
@@ -48,7 +54,7 @@ export class GrupoComponent  implements OnInit {
   }
 
   updateSelectedUsers() {
-    this.selectedUsers = this.users.filter(u => u.selected);
+    this.selectedUsers = this.localUsers.filter(u => u.selected);
     console.log('Usuarios seleccionados:', this.selectedUsers);
   }
 

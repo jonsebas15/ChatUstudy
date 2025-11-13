@@ -31,9 +31,9 @@
       }
     </ion-list>
   } 
-  <ion-modal #usersModal [isOpen]="isNewChat()" (didDismiss)="newshow(false)">
+  <ion-modal #usersModal [isOpen]="isNewChat()" (didDismiss)="newshow(false)" >
     <ng-template>
-      <app-grupo (close)="usersModal.dismiss()"></app-grupo>
+      <app-grupo (close)="usersModal.dismiss()" [users]="users()"></app-grupo>
     </ng-template>
   </ion-modal>
 

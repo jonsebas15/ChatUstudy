@@ -23,7 +23,7 @@ export class UsersComponent  implements OnInit {
  userRol = input<number | null>(0);
   constructor() {
    }
-
+  //eslint-disable-next-line
   ngOnInit() {}
 
   closeModal(){
@@ -34,6 +34,6 @@ export class UsersComponent  implements OnInit {
   }
   newshow(value:boolean){
      this.isNewChat.set(value)
-  }
+      }
 
 }

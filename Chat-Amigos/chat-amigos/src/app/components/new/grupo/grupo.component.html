@@ -23,13 +23,13 @@
           <ion-text>{{ selectedUsers.length }} seleccionados</ion-text>
         </ion-item>
 
-        <!-- Lista desplegable -->
+        Lista desplegable -->
         <ion-list *ngIf="showUserList" class="user-list">
-          <ion-item *ngFor="let user of users">
+          <ion-item *ngFor="let user of localUsers">
             <ion-label>{{ user.name }}</ion-label>
             <ion-checkbox
               slot="end"
-              name="user_{{ user.id }}"
+              name="user_{{ user.uid }}"
               [(ngModel)]="user.selected"
               (ionChange)="updateSelectedUsers()">
             </ion-checkbox>
