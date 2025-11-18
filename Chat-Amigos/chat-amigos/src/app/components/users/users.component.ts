@@ -14,13 +14,13 @@ import { GrupoComponent } from 'src/app/components/new/grupo/grupo.component';
 })
 export class UsersComponent  implements OnInit {
  users = input<User[] | null>([]);
+ userRol = input<number | null>(0);
  close = output<boolean>();
- user = output<User>();
+ user = output<any>();
  isNewChat = signal<boolean>(false)
  groupName = '';
  groupMembers = '';
 
- userRol = input<number | null>(0);
   constructor() {
    }
   //eslint-disable-next-line
@@ -29,11 +29,19 @@ export class UsersComponent  implements OnInit {
   closeModal(){
     this.close.emit(true)
   }
-  startChat(user:User){
-    this.user.emit(user)
+  startChat(user:any){
+    const data = {members: [user.uid], name: user.name};
+    this.user.emit(data);
   }
   newshow(value:boolean){
      this.isNewChat.set(value)
       }
+  addUser(data:any){
+    this.groupName = data.name;
+    this.groupMembers = data.members;
+    this.user.emit(data)
+    this.closeModal();
+
+  }
 
 }

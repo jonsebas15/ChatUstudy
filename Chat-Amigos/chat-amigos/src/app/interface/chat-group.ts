@@ -4,5 +4,4 @@ export interface ChatGroup {
     timestamp: number;
     isCurrentUser?: boolean;
     id?:string;
-    
 }

@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{ name() }}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/principal/chats" color="medium"></ion-back-button>
+      <ion-back-button defaultHref="/principal/chats"></ion-back-button>
     </ion-buttons>
     <!-- <ion-buttons slot="end">
       <ion-button (click)="clearMessages()">Borrar mensajes</ion-button>
@@ -17,15 +17,12 @@
   <ion-popover [isOpen]="isMenuOpen" [event]="event" (ionPopoverDidDismiss)="closeMenu()">
     <ng-template>
       <ion-list>
+        <ion-item button (click)="academicMessages()">Mensajes academicos </ion-item>
         <ion-item button (click)="clearFriend()">Eliminar amigo</ion-item>
         <ion-item button (click)="clearMessages()">Borrar mensajes</ion-item>
       </ion-list>
     </ng-template>
   </ion-popover>
-
-
-
-
   </ion-toolbar>
 </ion-header>
 
@@ -48,6 +45,12 @@
   <ion-toolbar>
   <ion-item lines="none">
       <ion-textarea autoGrow rows="1" placeholder="Escribir mensaje" [(ngModel)]="message"> </ion-textarea>
+        <!-- Checkbox -->
+         
+        <div class="checkbox-vertical">
+          <ion-checkbox [(ngModel)]="isAcademic"></ion-checkbox>
+          <span>Académico</span>
+        </div>
       
       @if(isLoading()){
         <ion-button slot="end" size="large">

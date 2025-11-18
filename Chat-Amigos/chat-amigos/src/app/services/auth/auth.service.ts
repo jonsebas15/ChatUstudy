@@ -13,6 +13,8 @@ import { StringFormat } from '@angular/fire/storage';
 export class AuthService {
   uid = signal<string | null>(null);
   rol = signal<number | null>(null);
+  imageUrl = signal<string | null>(null);
+  name = signal<string | null>(null);
   userRef: DatabaseReference | null = null;
   private fireAuth = inject(Auth)
   private router = inject(Router)
@@ -28,16 +30,7 @@ export class AuthService {
     this.setData(uid);
     return uid;
   }
-  async getRol(){
-    const uid = this.getId();
-    // obtener datos desde tu base de datos
-    const snapshot = await this.api.getData(`users/${uid}`);
-    const data = snapshot.val();
-    const rol = data?.rol ?? null;
 
-    this.rol.set(rol);
-    return rol;
-  } 
 
   //obtener rol de usuario
   getRole(){
@@ -46,10 +39,19 @@ export class AuthService {
      const usuario = onValue(this.userRef,(snapshot)=>{
           if(snapshot?.exists()){
             const user: User = snapshot.val();
-    
+  
+            //guardar rol en la señal
             const rol = user.rol;
-            console.log('sirve',rol)
             this.rol.set(rol);
+
+            //guardar nombre en la señal
+            const name = user.name;
+            this.name.set(name);
+
+            //guardar imagen en la señal
+            const photo = user.photo;
+            this.imageUrl.set(photo);
+
           } else{
             this.rol.set(0)
           }

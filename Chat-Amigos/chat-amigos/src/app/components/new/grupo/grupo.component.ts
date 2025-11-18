@@ -19,10 +19,8 @@ export class GrupoComponent   {
   groupMembers = '';
   users = input<User[] | null>([]);
   selectedUsers: (User & { selected: boolean })[] = [];
-
-  
   showUserList = false;
-
+  Ausers = output<any>();
 
 
   localUsers: (User & { selected: boolean })[] = []; 
@@ -43,8 +41,18 @@ export class GrupoComponent   {
   
   onCreateGroup() {
     if (!this.groupName.trim()) {
-      console.log('El nombre del grupo es obligatorio');
+      alert('El nombre del grupo es obligatorio');
       return;
+    }
+    if (this.selectedUsers.length < 2) {
+      alert('Debe seleccionar al menos dos usuarios para crear un grupo');
+      return;
+    }else {
+      this.Ausers.emit({
+        name: this.groupName,
+        members: this.selectedUsers.map(u => u.uid) 
+      });
+      this.closeModal();
     }
   } 
 

@@ -3,7 +3,7 @@ import { CalendarService, CalendarEvent } from 'src/app/services/calendar/calend
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonAvatar, IonImg, IonLabel, IonButton, IonIcon, IonModal, IonButtons } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonAvatar, IonImg, IonLabel, IonButton, IonIcon, IonModal, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 
 
@@ -12,7 +12,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonAvata
   templateUrl: './chat-mundo.page.html',
   styleUrls: ['./chat-mundo.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonButtons, IonModal, IonIcon, IonButton, IonLabel, IonImg, IonAvatar, IonItem, IonList, IonContent, IonHeader, IonTitle, IonToolbar]
+  imports: [CommonModule, FormsModule, IonButtons, IonModal, IonIcon, IonButton, IonLabel, IonImg, IonAvatar, IonItem, IonList, IonContent, IonHeader, IonTitle, IonToolbar, IonBackButton]
 })
 export class ChatMundoPage implements OnInit {
   today = new Date();

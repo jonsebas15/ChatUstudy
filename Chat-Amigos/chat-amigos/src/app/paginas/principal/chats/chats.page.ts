@@ -52,24 +52,40 @@ export class ChatsPage implements OnInit {
     }
     this.isNewChat.set(value)
   }
-  async startChat(user:User, modal: IonModal){
+  async startChat(data:any, modal: IonModal){
     try {
-      const room = await this.chatroom.createChatRoom([user.uid], user.name); 
-      //dismiss modal
-      modal.dismiss();
-
-      //navigate to chat
-      this.navigateToChat(user?.name , room?.id);
-      const navData: NavigationExtras ={
-        queryParams: {
-          name:user?.name
+      if(data.members.length === 1){
+        
+        const room = await this.chatroom.createChatRoom(data.members, data.name); 
+        //dismiss modal
+        modal.dismiss();
+        
+        //navigate to chat
+        this.navigateToChat(data?.name , room?.id);
+        const navData: NavigationExtras ={
+          queryParams: {
+            name:data?.name
         }
       }
       this.router.navigate(['/', 'principal','chats', room?.id], navData)
+    } else {
+        const room =  await this.chatroom.createChatRoom(data.members, data.name, 'group');
+        //dismiss modal
+        modal.dismiss();
+        //navigate to chat
+        this.navigateToChat(data?.name , room?.id);
+        const navData: NavigationExtras ={
+          queryParams: {
+            name:data?.name
+    }
+  }
+    this.router.navigate(['/', 'principal','chats', room?.id], navData)
+      }
     } catch (error) {
       console.log(error);
     }
   }
+
   getChat(chatroom:ChatRoom){
     this.navigateToChat(chatroom?.name!, chatroom?.roomId)
   }

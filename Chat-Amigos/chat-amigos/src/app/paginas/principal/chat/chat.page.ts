@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, OnInit, signal, viewChild } from '@angular/core';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonList, IonFooter, IonTextarea, IonItem, IonButton, IonIcon, IonSpinner, IonPopover } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonList, IonFooter, IonTextarea, IonItem, IonButton, IonIcon, IonSpinner, IonPopover,IonLabel, IonCheckbox} from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatBoxComponent } from 'src/app/components/chat-box/chat-box.component';
 import { EmptyScreenComponent } from 'src/app/components/empty-screen/empty-screen.component';
@@ -13,7 +13,7 @@ import { ChatService } from 'src/app/services/chat/chat.service';
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
   standalone: true,
-  imports: [IonPopover, IonSpinner, IonIcon, IonButton, IonItem, IonTextarea, IonFooter, IonList, IonBackButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, ChatBoxComponent, EmptyScreenComponent, FormsModule]
+  imports: [IonPopover, IonSpinner, IonIcon, IonButton, IonItem, IonTextarea, IonFooter, IonList, IonBackButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonCheckbox, ChatBoxComponent, EmptyScreenComponent, FormsModule]
 })
 export class ChatPage implements OnInit {
 
@@ -25,7 +25,8 @@ export class ChatPage implements OnInit {
   private router = inject(ActivatedRoute)
   private routerNav = inject(Router)
   private chatService = inject(ChatService)
-
+  isAcademic = signal<boolean>(false);
+  filterAcademic = signal<boolean>(false);
   isMenuOpen = false; 
   event: any = null;
 
@@ -37,7 +38,17 @@ export class ChatPage implements OnInit {
     color:'primary',
   }
 
-  chats = computed(()=> this.chatService.chatMessages())
+  //chats = computed(()=> this.chatService.chatMessages())
+
+  chats = computed(() => {
+  const all = this.chatService.chatMessages() ?? [];
+
+  // Si no está activado el filtro → devolver todo
+  if (!this.filterAcademic()) return all;
+
+  // Si está activado → devolver solo académicos
+  return all.filter(msg => msg.isAcademic === true);
+});
 
 
   constructor() {
@@ -68,12 +79,12 @@ export class ChatPage implements OnInit {
 
   async sendMessage(){
     if(!this.message() || this.message()?.trim() == ''){
-      //show a toast message
+      //show toast
       return;
     }
     try {
       this.setIsLoading(true);
-      await this.chatService.sendMessage(this.id()!, this.message()!);
+      await this.chatService.sendMessage(this.id()!, this.message()!, this.isAcademic());
 
       this.message.set('')
       this.setIsLoading(false);
@@ -83,6 +94,10 @@ export class ChatPage implements OnInit {
       this.setIsLoading(false);
     }
   }
+academicMessages() {
+  this.filterAcademic.set(!this.filterAcademic());
+  this.closeMenu();
+}
 
   setIsLoading(value:boolean){
     this.isLoading.set(value);

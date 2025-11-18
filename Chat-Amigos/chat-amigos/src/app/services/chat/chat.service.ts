@@ -1,8 +1,8 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal, Type } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Chat } from 'src/app/interface/chat';
 import { AuthService } from '../auth/auth.service';
-import { DatabaseReference, off, onValue, remove } from '@angular/fire/database';
+import { DatabaseReference, off, onValue, remove, get } from '@angular/fire/database';
 import { ChatGroup } from 'src/app/interface/chat-group';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { ChatGroup } from 'src/app/interface/chat-group';
 export class ChatService {
 
   chatMessages = signal<Chat[] | null>([]);
-  chatGroupMessages = signal<ChatGroup[] | null>([]);
+  //chatGroupMessages = signal<ChatGroup[] | null>([]);
 
   private chatsRef:DatabaseReference | null = null;
   private chatListener: any = null ;
@@ -21,21 +21,28 @@ export class ChatService {
   private api = inject(ApiService);
 
   currentUserId = computed(()=> this.auth.uid())
+  currentUserName = computed(()=> this.auth.name())
   
 
   constructor() { 
     this.auth.getId();
-  
+    this.auth.getRole();
   }
 
-  async sendMessage(chatroomId:string, message: string){
+  async sendMessage(chatroomId:string, message: string, isAcademic: boolean = false){
     try {
-
       const chatsRef = this.api.getRef(`chatrooms/${chatroomId}/messages`);
+      const chatTypeRef = this.api.getRef(`chatrooms/${chatroomId}/type`);
+      const snapshot = await get(chatTypeRef);
+      const chatType = snapshot.exists() ? snapshot.val() : null;
+
       //prepare message object
       const chatData: Chat ={
         senderId :this.currentUserId()!,
         message,
+        name: this.currentUserName(),
+        type: chatType,
+        isAcademic,
         timestamp: Date.now(),
       }
   
@@ -48,7 +55,7 @@ export class ChatService {
 
   }
 
-  async sendMessageGroup(message: string){
+  /* async sendMessageGroup(message: string){
     try {
 
       const chatsRef = this.api.getRef(`chatrooms/group/messagesGroup`);
@@ -66,7 +73,7 @@ export class ChatService {
       throw(error)
     }
 
-  }
+  }*/
 
     getChatMessages(chatroomId:string){
       this.chatsRef = this.api.getRef(`chatrooms/${chatroomId}/messages`);
@@ -91,6 +98,7 @@ export class ChatService {
       })
     }
 
+    /*
     getChatGroupMessages(){
       this.chatsRef = this.api.getRef(`chatrooms/group/messagesGroup`);
       //listen for realtime update to the chat messages
@@ -113,7 +121,7 @@ export class ChatService {
       })
     }
 
-    /* unsubscribeChats(){
+     unsubscribeChats(){
       if(this.chatsRef){
         off(this.chatsRef, 'value', this.chatListener);
         this.chatsRef = null; //reset the reference
