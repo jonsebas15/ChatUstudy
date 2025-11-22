@@ -1,27 +1,47 @@
-import { Component, input, OnInit, output } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonButton, IonButtons, IonIcon, IonContent, IonList, IonItem, IonAvatar, IonImg, IonLabel } from "@ionic/angular/standalone";
+import { Component, input, OnInit, output, signal } from '@angular/core';
 import { User } from 'src/app/interface/user';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { GrupoComponent } from 'src/app/components/new/grupo/grupo.component';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
   standalone: true,
-  imports: [IonLabel, IonImg, IonAvatar, IonItem, IonList, IonContent, IonIcon, IonButtons, IonButton, IonTitle, IonToolbar, IonHeader, ]
+  imports: [CommonModule, FormsModule, IonicModule, GrupoComponent]
 })
 export class UsersComponent  implements OnInit {
  users = input<User[] | null>([]);
+ userRol = input<number | null>(0);
  close = output<boolean>();
- user = output<User>();
-  constructor() { }
+ user = output<any>();
+ isNewChat = signal<boolean>(false)
+ groupName = '';
+ groupMembers = '';
 
+  constructor() {
+   }
+  //eslint-disable-next-line
   ngOnInit() {}
-  
+
   closeModal(){
     this.close.emit(true)
   }
-  startChat(user:User){
-    this.user.emit(user)
+  startChat(user:any){
+    const data = {members: [user.uid], name: user.name};
+    this.user.emit(data);
+  }
+  newshow(value:boolean){
+     this.isNewChat.set(value)
+      }
+  addUser(data:any){
+    this.groupName = data.name;
+    this.groupMembers = data.members;
+    this.user.emit(data)
+    this.closeModal();
+
   }
 
 }

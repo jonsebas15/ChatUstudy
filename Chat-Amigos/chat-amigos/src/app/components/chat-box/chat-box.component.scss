@@ -1,4 +1,5 @@
 ion-item{
+    --background: #B6E2A1;
     div{
         max-width: 70%;
         padding: 10px 4px 10px 10px;
@@ -23,13 +24,13 @@ ion-item{
 }
 .otherUser{
     .container{
-        background-color: var(--ion-color-dark);
+        background-color: #575757;;
         &::after{
             content: "";
             position: absolute;
             bottom: -8px;
             left: -4px;
-            border-bottom: 9px solid var(--ion-color-dark);
+            border-bottom: 9px solid #575757;
             height: 30px;
             width: 15px;
             transform: rotate(290deg);
@@ -52,4 +53,12 @@ ion-item{
             border-radius: 20px 0;
         }
     }
+}
+.sender-name {
+  display: block;
+  font-size: 0.78rem;      /* más pequeño, como WhatsApp */
+  font-weight: 600;
+  color: #000000;          /* verde tipo WhatsApp */
+  margin-bottom: 3px;      /* espacio debajo */
+  padding-left: 2px;       /* se ve más alineado */
 }

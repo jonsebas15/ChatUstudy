@@ -1,0 +1,76 @@
+/* Nueva publicación */
+.new-post-card {
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
+  ion-item {
+    --background: #f0f0f0;
+    color: black;
+  }
+
+  .new-post-textarea {
+    padding-left: 10px;
+    font-size: 14px;
+    --background : #f0f0f0;
+  }
+
+  .post-btn {
+    margin-top: 10px;
+    --border-radius: 12px;
+  }
+}
+
+/* Publicación */
+.post-card {
+  margin-bottom: 20px;
+  border-radius: 15px;
+  background-color: #f0f0f0;
+
+  ion-item {
+    --padding-start: 10px;
+    --inner-padding-end: 10px;
+    --background: #2F5233;
+
+  }
+  ion-card-content {
+    color: black;
+  }
+
+  .post-author {
+    font-weight: bold;
+    margin: 0;
+    color: #f0f0f0;
+  }
+
+  .post-time {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+
+  ion-card-content {
+    font-size: 15px;
+    padding: 10px 16px;
+    
+  }
+
+  .post-image {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px 0 10px 0;
+    border-top: 1px solid #e5e5e5;
+
+    ion-button {
+      font-size: 14px;
+      --color: var(--ion-color-medium);
+    }
+  }
+}

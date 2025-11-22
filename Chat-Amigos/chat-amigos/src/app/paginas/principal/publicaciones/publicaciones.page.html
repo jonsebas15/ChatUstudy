@@ -1,13 +1,89 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>publicaciones</ion-title>
+    <ion-title>Publicaciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">publicaciones</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+
+  <!-- Crear nueva publicación -->
+  <ion-card class="new-post-card">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img [src]="currentUserPhoto()" />
+      </ion-avatar>
+      <ion-textarea
+        placeholder="¿Qué estás pensando?"
+        autoGrow="true"
+        [(ngModel)]="newPublication"
+        class="new-post-textarea">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" class="post-btn" (click)="postNewPublication()">
+      Publicar
+    </ion-button>
+  </ion-card>
+
+  <!-- 
+  <ion-card class="post-card">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img src="https://png.pngtree.com/element_our/20200610/ourmid/pngtree-character-default-avatar-image_2237203.jpg" />
+      </ion-avatar>
+      <ion-label>
+        <h3 class="post-author">Juan Pérez</h3>
+        <p class="post-time">Hace 2 horas</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-card-content>
+      Hoy fue un gran día para avanzar en mi proyecto con Ionic 😁📱
+    </ion-card-content>
+
+    <img src="https://png.pngtree.com/element_our/20200610/ourmid/pngtree-character-default-avatar-image_2237203.jpg" class="post-image"/>
+
+    <div class="post-actions">
+      <ion-button fill="clear" size="small">
+        👍 Me gusta
+      </ion-button>
+      <ion-button fill="clear" size="small">
+        💬 Comentar
+      </ion-button>
+    </div>
+  </ion-card> -->
+
+  <!-- Otra publicación -->
+   @let publication = publicaciones();
+   @if(publication && publication?.length! >0){
+    @for(publicacion of publication; track $index){
+  <ion-card class="post-card">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img [src]=  "publicacion?.imagenUrl" />
+      </ion-avatar>
+      <ion-label>
+        <h3 class="post-author">{{ publicacion?.nombre }}</h3>
+        <p class="post-time"> {{ publicacion?.fecha | date:'HH:mm' }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-card-content>
+      {{ publicacion?.contenido }}
+    </ion-card-content>
+
+    <div class="post-actions">
+      <ion-button fill="clear" size="small">
+        👍 Me gusta
+      </ion-button>
+      <ion-button fill="clear" size="small">
+        💬 Comentar
+      </ion-button>
+    </div>
+  </ion-card>
+  }
+  }@else {
+    <ion-text class="no-posts-text">No hay publicaciones para mostrar.</ion-text>
+  }
 </ion-content>
+

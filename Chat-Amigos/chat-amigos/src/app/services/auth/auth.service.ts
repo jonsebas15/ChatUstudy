@@ -2,6 +2,9 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
+import { DatabaseReference, onValue } from '@firebase/database';
+import { User } from 'src/app/interface/user';
+
 import { StringFormat } from '@angular/fire/storage';
 
 @Injectable({
@@ -9,6 +12,10 @@ import { StringFormat } from '@angular/fire/storage';
 })
 export class AuthService {
   uid = signal<string | null>(null);
+  rol = signal<number | null>(null);
+  imageUrl = signal<string | null>(null);
+  name = signal<string | null>(null);
+  userRef: DatabaseReference | null = null;
   private fireAuth = inject(Auth)
   private router = inject(Router)
   private api = inject(ApiService)
@@ -24,6 +31,36 @@ export class AuthService {
     return uid;
   }
 
+
+  //obtener rol de usuario
+  getRole(){
+    this.getId()
+    this.userRef = this.api.getRef(`users/${this.uid()}`);
+     const usuario = onValue(this.userRef,(snapshot)=>{
+          if(snapshot?.exists()){
+            const user: User = snapshot.val();
+  
+            //guardar rol en la señal
+            const rol = user.rol;
+            this.rol.set(rol);
+
+            //guardar nombre en la señal
+            const name = user.name;
+            this.name.set(name);
+
+            //guardar imagen en la señal
+            const photo = user.photo;
+            this.imageUrl.set(photo);
+
+          } else{
+            this.rol.set(0)
+          }
+        },(error)=>{
+          console.error('Fetching real-time users list', error)
+        })
+  }
+
+
   async register(data :{name: string, email: string, password:string}):Promise<{id:string}> {
     try{
       const register = await createUserWithEmailAndPassword(
@@ -38,6 +75,7 @@ export class AuthService {
         email: data.email,
         uid:id,
         photo:'https://i.pravatar.cc/'+this.randomIntFromInterval(200,400),
+        rol:0,
       }
       //set data in database
       await this.api.setData(`users/${id}`, userData);

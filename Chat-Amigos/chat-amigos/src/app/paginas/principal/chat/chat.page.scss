@@ -22,6 +22,36 @@ ion-header{
             position: relative;
             right: 8px;
             width: 1.7rem;
+            color: #ffffff;
+        }
+        ion-buttons{
+            ion-back-button{
+                color: #ffffff;
+            }
         }
     }
+}
+ion-content{
+    ion-list{
+        background-color: #B6E2A1;
+    }
+}
+ion-footer{
+    ion-toolbar{
+        ion-item{
+            --background: #dbdbdb;
+            ion-textarea{
+                color:black;
+            }
+        }
+    }
+}
+.checkbox-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centra checkbox y texto */
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: black
 }

@@ -46,7 +46,7 @@
     <ng-template>
       @if(users()){
 
-        <app-users [users]="users()" (close)="usersModal.dismiss()" (user)="startChat($event, usersModal)">
+        <app-users [userRol]="currentUserRol()" [users]="users()" (close)="usersModal.dismiss()" (user)="startChat($event, usersModal)">
         </app-users>
       }
 

@@ -3,6 +3,7 @@
   <ion-item lines ="none" [class]="chat()?.isCurrentUser ? 'currentUser' : 'otherUser'">
     <div class="ion-text-wrap container" [slot]="chat()?.isCurrentUser ? 'end' : 'start'">
       <ion-text>
+        <strong *ngIf="chat()?.type === 'group'" class="sender-name">{{ chat()?.name }}<br></strong>
         {{ chat()?.message }}
       </ion-text>
       <ion-note>

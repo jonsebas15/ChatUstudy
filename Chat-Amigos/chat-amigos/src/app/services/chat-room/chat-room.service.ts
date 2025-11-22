@@ -122,9 +122,26 @@ export class ChatRoomService {
                 room,
                 room.messages
               );
-             }/*else {
+             }else if(room.type == 'group' && room.users.includes(this.currentUserId())){
               //group chat
-            } */
+              let lastMessage:any = null;
+              if(room.messages){
+                const messageArray = Object.values(room.messages);
+                const sorteMessages = messageArray.sort((a:any, b:any)=>{
+                  return b.timestamp - a.timestamp});
+
+                lastMessage = sorteMessages[0]
+              }
+              const group = {
+                roomId,
+                name: room.name,
+                photo: 'https://robohash.org/mail@ashallendesign.co.uk/'+this.randomIntFromInterval(200,400),
+                room,
+                lastMessage: lastMessage?.message || null,
+                lastMessageTimestamp : lastMessage?.timestamp || null,
+              }
+              return group;
+            } 
             return null;
           });
 
@@ -143,6 +160,9 @@ export class ChatRoomService {
         }
       }
     )
+  }
+  randomIntFromInterval(min:number, max:number):number{
+    return Math.floor(Math.random()*(max-min +1)+min);
   }
 
   private async getUserDataAndLastMessage( 
