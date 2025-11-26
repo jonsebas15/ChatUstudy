@@ -1,2 +1,3 @@
 # Ejemplos
-<img width="480" height="360" alt="image" src="https://github.com/user-attachments/assets/95fcd4c2-003b-41a9-bee8-e5c94682e54e" />
+
+<img width="1024" height="1024" alt="url_qrcodecreator com_08_28_59" src="https://github.com/user-attachments/assets/627636c3-bd6d-4403-b838-dbb564fe4424" />
